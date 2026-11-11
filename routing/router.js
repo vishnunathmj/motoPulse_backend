@@ -9,6 +9,8 @@ const { addVehicle,getVehicles, getVehicleById, updateVehicle, deletevehicle } =
 const fuelController = require('../controllers/fuelController')
 const maintenanceController = require('../controllers/maintenanceController')
 const reminderController = require('../controllers/reminderController')
+const documentController = require('../controllers/documentController')
+const dashboardController = require('../controllers/dashboardController')
 
 // Register route
 routes.post('/register', register)
@@ -78,7 +80,14 @@ routes.post('/reminder', authMiddleware, reminderController.addReminder)
 // get all reminder
 routes.get('/reminder', authMiddleware, reminderController.getReminders)
 
-// get sing;e reminder
+// Overdue Reminders
+routes.get('/reminder/overdue', authMiddleware, reminderController.getOverdueReminders)
+
+// upcoming overdue
+routes.get('/reminder/upcoming', authMiddleware, reminderController.getUpcomingReminders)
+
+
+// get single reminder
 routes.get('/reminder/:id', authMiddleware, reminderController.getReminderById)
 
 // update reminder
@@ -87,4 +96,44 @@ routes.put('/reminder/:id', authMiddleware, reminderController.updateReminder)
 // delete reminder
 routes.delete('/reminder/:id', authMiddleware, reminderController.deleteReminder)
 
+
+
+
+// Document Routes
+// add doc
+routes.post('/document', authMiddleware, documentController.addDocument)
+
+// get all doc
+routes.get('/document', authMiddleware, documentController.getDocuments)
+
+// expiring document
+routes.get('/document/expired', authMiddleware, documentController.getExpiredDocuments)
+
+// expiring soon doc
+routes.get('/document/expiring-soon', authMiddleware, documentController.getExpiringSoonDocuments)
+
+// get one doc
+routes.get('/document/:id', authMiddleware, documentController.getDocumentById)
+
+// edit doc
+routes.put('/document/:id', authMiddleware, documentController.updateDocument)
+
+// delete doc
+routes.delete('/document/:id', authMiddleware, documentController.deleteDocument)
+
+// Dashboard Route
+routes.get('/dashboard', authMiddleware, dashboardController.getDashboardStats)
+
+// Monthly Expense Report
+routes.get('/reports/monthly-expenses', authMiddleware, dashboardController.getMonthlyExpenses)
+
+// Vehicle-wise Expense Report
+routes.get('/reports/vehicle-expenses', authMiddleware, dashboardController.getVehicleExpenses)
+
+// Mileage Report
+routes.get('/reports/mileage', authMiddleware, dashboardController.getMileageReport)
+
+
+// Recent Activities
+routes.get('/dashboard/recent-activities', authMiddleware, dashboardController.getRecentActivities)
 module.exports = routes
